@@ -14,10 +14,11 @@
 
 			$(settings.selector).each(function() {
 				$this = $(this);
-				var currentId = $this.attr('id');
+				var genId = "anchor-" + $(settings.selector).index($this);
 				var str = $this.find(settings.anchorTitle).text();
-				
-				$('#anchornav ul').append('<li class="'+currentId+'"><a href="#'+currentId+'" class="jumpto">' + str + '</a></li>');
+				$($this).wrapInner('<div class="anchorInner" />');
+				$this.find('.anchorInner').attr('id', genId);
+				$('#anchornav ul').append('<li class="'+genId+'"><a href="#'+genId+'" class="jumpto">' + str + '</a></li>');
 			});
 			
 			 $('a[href^="#"]').click(function() {
