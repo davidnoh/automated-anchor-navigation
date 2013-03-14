@@ -1,39 +1,66 @@
-(function($) {
-	$.fn.anchornav = function ( options ) {
-		var settings = $.extend({
-			"wrapper": "body",
-			"selector": "section",
-			"anchorTitle": "h2",
-			"speed": "fast"
-		}, options);
-		
-		var n = $(settings.selector).length;
-		
-		if ( n > 0) {
-			$(settings.wrapper).prepend('<nav id="anchornav"><ul></ul></nav>');
+;(function ($) {
 
-			$(settings.selector).each(function() {
-				$this = $(this);
-				
-				var id = $this.attr('id');
-				
+	var defaults = {
+		wrapper: "body",
+		selector: "section",
+		anchorTitle: "h2",
+		class: "anchornav",
+		speed: "fast"
+	};
+
+	function Anchornav(element, options) {
+		this.element = element;
+		this.options = $.extend({}, defaults, options);
+		this.init();
+	}
+
+	Anchornav.prototype = {
+		init: function () {
+			this.selectors = this.element.find(this.options.selector);
+
+			if (this.selectors.length) {
+				this.build();
+				this.bindings();
+			}
+		},
+		build: function() {
+			var self = this;
+
+			self.navlist = $('<nav class="'+self.options.navId+'"><ul/></nav>').prependTo(el);
+
+			self.selectors.each(function() {
+				var $this = $(this),
+					id = $this.attr('id'),
+					str = $this.find(self.options.anchorTitle).text(),
+					navEl = null;
+
 				if (!id) {
-				   id = "anchor" + $(settings.selector).index($this);
-				   $this.attr('id', id);
+					id = "anchor-" + self.selectors.index($this);
+					$this.attr('id', id);
 				}
-				
-				var str = $this.find(settings.anchorTitle).text();
-				
-				$('#anchornav ul').append('<li class="'+id+'"><a href="#'+id+'" class="jumpto">' + str + '</a></li>');
+
+				self.navlist.append('<li class="'+id+'"><a href="#'+id+'" class="jumpto">'+str+'</a></li>');
 			});
-			
-			 $('a[href^="#"]').click(function() {
-				$('html,body').animate({ scrollTop: $(this.hash).offset().top}, settings.speed);
+		},
+		bindings: function () {
+			var self = this;
+
+			self.navlist.find('a.jumpto').bind('click.anchornav', function(e) {
+				e.preventDefault();
+				$('html,body').animate({
+					scrollTop: $(this.hash).offset().top
+				}, self.options.speed);
 				return false;
 			});
-		} else {
-			// Error Message:
-			console.log('There is no anchorelement with the selector ' + settings.selector);
 		}
-	}
-}(jQuery));
+	};
+
+	$.fn.anchornav = function (options) {
+		return this.each(function () {
+			if (!$.data(this, "anchornav")) {
+				$.data(this, "anchornav", new Anchornav(this, options));
+			}
+		});
+	};
+
+})(jQuery);
