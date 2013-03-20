@@ -52,6 +52,13 @@
 				}, self.options.speed);
 				return false;
 			});
+		},
+		destroy: function () {
+			this.navlist.remove();
+		},
+		refresh: function () {
+			this.destroy();
+			this.init();
 		}
 	};
 
