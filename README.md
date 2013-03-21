@@ -4,20 +4,11 @@
 The automated anchor navigation plugin generates a jump navigation for every anchor with smooth scrolling.
 
 ## Options (Defaults)
-// Position for the navigation
-wrapper: "body"
-
-// Anchor selector
-selector: "section"
-
-// Title of the section. This is used to get the title for the navigation
-anchorTitle: "h2"
-
-// The class for the anchornav elements
-class: "anchornav"
-
-// The animation speed
-speed: "fast"
+wrapper: "body"         // Position for the navigation
+selector: "section"     // Anchor selector
+anchorTitle: "h2"       // Title of the section. This is used to get the title for the navigation
+class: "anchornav"      // The class for the anchornav elements
+speed: "fast"           // The animation speed
 
 ## Usage
 1. Link the Plugin
