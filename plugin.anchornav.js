@@ -16,7 +16,7 @@
 
 	Anchornav.prototype = {
 		init: function () {
-			this.selectors = this.element.find(this.options.selector);
+			this.selectors = $(this.element).find(this.options.selector);
 
 			if (this.selectors.length) {
 				this.build();
@@ -26,7 +26,7 @@
 		build: function() {
 			var self = this;
 
-			self.navlist = $('<nav class="'+self.options.navId+'"><ul/></nav>').prependTo(el);
+			self.navlist = $('<nav class="'+self.options.navId+'"><ul/></nav>').prependTo($(self.element));
 
 			self.selectors.each(function() {
 				var $this = $(this),
